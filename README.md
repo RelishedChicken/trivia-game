@@ -7,3 +7,4 @@ To use this, visit https://relishedchicken.github.io/trivia-game/ where it is ho
 - Mobile Friendly
 - More Options
 - UI Options
+- Scoring
