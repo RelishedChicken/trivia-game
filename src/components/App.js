@@ -16,7 +16,8 @@ class App extends React.Component{
         questionLoaded: false,
         buttonsDisabled: false,
         allCategories: [<option value="">Any</option>],
-        chosenCategory: ""
+        chosenCategory: "",
+        questionType: "",
     }
 
     //Trigger to load question and categories
@@ -57,7 +58,7 @@ class App extends React.Component{
     //Get quetsion data from the Trivia API
     getQuestion = () => {
         var qData;
-        fetch("https://opentdb.com/api.php?amount=1"+this.state.chosenCategory).then(res => res.json()).then((jsonData) => {
+        fetch("https://opentdb.com/api.php?amount=1"+this.state.chosenCategory+this.state.questionType).then(res => res.json()).then((jsonData) => {
             //Get question data and clean up for use in web-app
             qData = jsonData.results[0];
             var realDifficulty = qData.difficulty.substring(0,1).toUpperCase() + qData.difficulty.substring(1,qData.difficulty.length);
@@ -101,23 +102,23 @@ class App extends React.Component{
             buttonsDisabled: true
         });
         console.log(this.state);
-        setTimeout(()=>{this.getQuestion()},5000);
+        setTimeout(()=>{this.getQuestion()},3400);
     }
     
     updateOptions = (e) => {
         e.preventDefault();
         console.log(e.target);
         this.setState({
-            chosenCategory: "&category="+e.target[0].value 
-        })
-        this.getQuestion();
+            chosenCategory: "&category="+e.target[0].value,
+            questionType: "&type="+e.target[1].value
+        }, this.getQuestion);
     }
 
     render(){
         return(
             <div className="appContainer">
                 <div className="menuCol">
-                    <h1 className="title">Trivia</h1>
+                    <h1 className="title">Tricky Trivia</h1>
                     <h3 className="subtitle">Options</h3>
                     <div className="options">
                         <form onSubmit={this.updateOptions}>
@@ -125,7 +126,13 @@ class App extends React.Component{
                             <select name="chosenCategory" id="categories" className="optionDropdown">
                                 {this.state.allCategories}
                             </select>
-                            <button className="submitButton">Update</button>
+                            <label className="optionsLabel">Type</label>
+                            <select name="questionType" className="optionDropdown">
+                                <option value="">Any</option>
+                                <option value="multiple">Multiple Choice</option>
+                                <option value="boolean">True / False</option>
+                            </select>
+                            <button className="submitButton">Get Questions!</button>
                         </form>
                     </div>
                 </div>

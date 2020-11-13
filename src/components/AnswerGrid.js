@@ -8,8 +8,12 @@ class AnswerGrid extends React.Component{
                 <div className="answerGrid">
                     <button disabled={this.props.buttonsDisabled} onClick={this.props.verifyAnswer} className="answerButton">{this.props.answers[0]}</button>
                     <button disabled={this.props.buttonsDisabled} onClick={this.props.verifyAnswer} className="answerButton">{this.props.answers[1]}</button>
-                    <button display={this.props.multipleChoice ? "none" : ""} disabled={this.props.buttonsDisabled} onClick={this.props.verifyAnswer} className="answerButton">{this.props.answers[2]}</button>
-                    <button display={this.props.multipleChoice ? "none" : ""} disabled={this.props.buttonsDisabled} onClick={this.props.verifyAnswer} className="answerButton">{this.props.answers[3]}</button>
+                    {this.props.type && (
+                        <>
+                            <button disabled={this.props.buttonsDisabled} onClick={this.props.verifyAnswer} className="answerButton">{this.props.answers[2]}</button>
+                            <button disabled={this.props.buttonsDisabled} onClick={this.props.verifyAnswer} className="answerButton">{this.props.answers[3]}</button>
+                        </>
+                    )}
                 </div>
             </div>
         )
