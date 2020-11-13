@@ -156,3 +156,25 @@ body{
 .answerButton:nth-child(odd){
     margin-right: 10px;
 }
+
+.scoreBoardContainer{
+    float: left;
+    width: calc(100% - 200px);
+    padding-top: 30px;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.scoreBoard{
+    float: left;
+    width: 100%;
+    background-color: var(--primary-colour);
+    border-radius: 10px;
+}
+
+.score{
+    float: left;
+    width: calc(100% / 2);
+    color: var(--secondary-colour);
+    text-align: center;
+}

@@ -1,6 +1,7 @@
 import React from "react";
 import Question from "./Question";
 import AnswerGrid from "./AnswerGrid";
+import ScoreBoard from "./ScoreBoard";
 import $ from "jquery";
 
 class App extends React.Component{
@@ -18,6 +19,8 @@ class App extends React.Component{
         allCategories: [<option value="">Any</option>],
         chosenCategory: "",
         questionType: "",
+        nCorrect: 0,
+        nWrong: 0
     }
 
     //Trigger to load question and categories
@@ -77,7 +80,7 @@ class App extends React.Component{
                 wrongAnswers: incorrectAnswers,
                 multipleChoice: qData.type === "multiple" ? true : false,
                 questionLoaded: true,
-                buttonsDisabled: false
+                buttonsDisabled: false,
             });
 
             //Set the button backgrounds back to normal (for when buttons show answers)
@@ -103,15 +106,26 @@ class App extends React.Component{
         });
         console.log(this.state);
         setTimeout(()=>{this.getQuestion()},3400);
+        if(e.target.textContent === this.state.correctAnswer){
+            this.setState({
+                nCorrect: this.state.nCorrect + 1
+            })
+        }else{
+            this.setState({
+                nWrong: this.state.nWrong + 1
+            })
+        }
     }
     
-    //Parse new options and generate new question
+    //Parse new options and generate new question & reset score
     updateOptions = (e) => {
         e.preventDefault();
         console.log(e.target);
         this.setState({
             chosenCategory: "&category="+e.target[0].value,
-            questionType: "&type="+e.target[1].value
+            questionType: "&type="+e.target[1].value,
+            nCorrect: 0,
+            nWrong: 0
         }, this.getQuestion);
     }
 
@@ -140,6 +154,7 @@ class App extends React.Component{
                 <div className="content">
                     <Question questionText={this.state.question} difficulty={this.state.difficulty} category={this.state.category}/>
                     <AnswerGrid type={this.state.multipleChoice} buttonsDisabled={this.state.buttonsDisabled} verifyAnswer={this.verifyAnswer} answers={this.state.answers} correctAnswer={this.state.correctAnswer} incorrectAnswers={this.state.incorrect_answers} />
+                    <ScoreBoard correct={this.state.nCorrect} incorrect={this.state.nWrong} />
                 </div>
             </div>
         )
