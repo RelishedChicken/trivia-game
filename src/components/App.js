@@ -19,6 +19,7 @@ class App extends React.Component{
         allCategories: [<option value="">Any</option>],
         chosenCategory: "",
         questionType: "",
+        chosenDifficulty: "",
         nCorrect: 0,
         nWrong: 0
     }
@@ -61,7 +62,7 @@ class App extends React.Component{
     //Get quetsion data from the Trivia API
     getQuestion = () => {
         var qData;
-        fetch("https://opentdb.com/api.php?amount=1"+this.state.chosenCategory+this.state.questionType).then(res => res.json()).then((jsonData) => {
+        fetch("https://opentdb.com/api.php?amount=1"+this.state.chosenCategory+this.state.questionType+this.state.chosenDifficulty).then(res => res.json()).then((jsonData) => {
             //Get question data and clean up for use in web-app
             qData = jsonData.results[0];
             var realDifficulty = qData.difficulty.substring(0,1).toUpperCase() + qData.difficulty.substring(1,qData.difficulty.length);
@@ -124,6 +125,7 @@ class App extends React.Component{
         this.setState({
             chosenCategory: "&category="+e.target[0].value,
             questionType: "&type="+e.target[1].value,
+            chosenDifficulty: "&difficulty="+e.target[2].value,
             nCorrect: 0,
             nWrong: 0
         }, this.getQuestion);
@@ -146,6 +148,13 @@ class App extends React.Component{
                                 <option value="">Any</option>
                                 <option value="multiple">Multiple Choice</option>
                                 <option value="boolean">True / False</option>
+                            </select>
+                            <label className="optionsLabel">Difficulty</label>
+                            <select name="questionType" className="optionDropdown">
+                                <option value="">Any</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
                             </select>
                             <button className="submitButton">Get Questions!</button>
                         </form>
