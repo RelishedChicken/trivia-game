@@ -63,7 +63,7 @@ class App extends React.Component{
             qData = jsonData.results[0];
             var realDifficulty = qData.difficulty.substring(0,1).toUpperCase() + qData.difficulty.substring(1,qData.difficulty.length);
             var allAnswers = qData.incorrect_answers;
-            allAnswers.push(qData.correct_answer);
+            allAnswers.push(this.decode(qData.correct_answer));
             allAnswers = this.shuffleArray(allAnswers);
             var incorrectAnswers = qData.incorrect_answers.map(e=>this.decode(e));
 
@@ -105,6 +105,7 @@ class App extends React.Component{
         setTimeout(()=>{this.getQuestion()},3400);
     }
     
+    //Parse new options and generate new question
     updateOptions = (e) => {
         e.preventDefault();
         console.log(e.target);
