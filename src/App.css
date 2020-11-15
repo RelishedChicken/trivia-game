@@ -197,6 +197,10 @@ body{
 @media only screen and (max-width: 900px) {
 
 
+    .appContainer{
+        height: auto;
+    }
+
     .questionContainer, .answerGridContainer, .scoreBoardContainer{
         padding: 5px;
         width: calc(100% - 10px);

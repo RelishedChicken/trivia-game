@@ -69,6 +69,11 @@ class App extends React.Component{
             var allAnswers = qData.incorrect_answers;
             allAnswers.push(this.decode(qData.correct_answer));
             allAnswers = this.shuffleArray(allAnswers);
+
+            for(var i=0;i<allAnswers.length;i++){
+                allAnswers[i] = this.decode(allAnswers[i]);
+            }
+
             var incorrectAnswers = qData.incorrect_answers.map(e=>this.decode(e));
 
             //Save the question in App state
@@ -86,8 +91,10 @@ class App extends React.Component{
 
             //Set the button backgrounds back to normal (for when buttons show answers)
             var allButtons = $(".answerButton");
-            for(var i=0;i<allButtons.length;i++){
-                allButtons[i].style.backgroundColor = "#603385";
+            for(var k=0;k<allButtons.length;k++){
+                allButtons[k].style.backgroundColor = "#603385";
+                allButtons[k].style.opacity = 1;
+                allButtons[k].style.border = "none";
             }
         });       
     }
@@ -100,12 +107,17 @@ class App extends React.Component{
                 allButtons[i].style.backgroundColor = "green";
             }else{
                 allButtons[i].style.backgroundColor = "red";
+                allButtons[i].style.opacity = 0.5; 
+            }
+            
+            if(e.target.textContent === allButtons[i].textContent){
+                allButtons[i].style.border = "3px solid white";
             }
         }
         this.setState({
             buttonsDisabled: true
         });
-        console.log(this.state);
+        
         setTimeout(()=>{this.getQuestion()},3400);
         if(e.target.textContent === this.state.correctAnswer){
             this.setState({
